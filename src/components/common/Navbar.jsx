@@ -45,12 +45,7 @@ const Navbar = () => {
       case 'events':
         navigate('/events');
         break;
-      case 'vaccination':
-        navigate('/vaccination');
-        break;
-      case 'user':
-        navigate('/profile');
-        break;
+    
       default:
         navigate('/');
     }
@@ -130,7 +125,9 @@ const Navbar = () => {
             {/* Profile Dropdown */}
             {isProfileOpen && (
               <div className="profile-menu absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                <a href="#profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your Profile</a>
+                <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  Your Profile
+                </Link>
                 <a href="#settings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
                 <a href="#favorites" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Saved Places</a>
                 <div className="border-t border-gray-100"></div>
@@ -165,19 +162,16 @@ const Navbar = () => {
           </button>
 
           {/* Vaccination Tab */}
-          <button 
-            onClick={() => handleTabClick('vaccination')}
-            className={`p-3 rounded-lg ${activeTab === 'vaccination' ? 'bg-purple-100' : ''}`}
-          >
+          <Link to="/vaccination" className="flex flex-col items-center p-4">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
             </svg>
-          </button>
+            </Link>
 
-          {/* User Tab */}
-          <Link to="/profile" className="flex flex-col items-center p-4">
+          {/* Emergency Contacts Tab */}
+          <Link to="/emergency-contacts" className="flex flex-col items-center p-4">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
             </svg>
           </Link>
         </div>
