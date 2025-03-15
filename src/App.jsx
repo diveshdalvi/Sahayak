@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Events from "./pages/Events";
 import EmergencyContacts from "./pages/EmergencyContacts";
 import Authentication from "./pages/Authentication";
 
+import Events from "./pages/Events/Events";
 import About from "./pages/about";
 import Login from "./components/Auth/login";
 import Signup from "./components/Auth/signup";
@@ -18,6 +18,7 @@ const App = () => {
           <Route path="/events" element={<Events />} />
           <Route path="/emergency-contacts" element={<EmergencyContacts />} />
           <Route path="/about" element={<About />} />
+          {/* <Route path="/about" element={<About />} /> */}
 
           {/* Nested Routes for Authentication */}
           <Route path="/auth" element={<Authentication />}>
