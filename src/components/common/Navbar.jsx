@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('map'); // Add this line to track active tab
@@ -32,6 +35,27 @@ const Navbar = () => {
     { id: 3, text: "Weekend highlights in your area", time: "3 hours ago", unread: false },
   ];
 
+  // Update the user tab click handler
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+    switch(tab) {
+      case 'map':
+        navigate('/');
+        break;
+      case 'events':
+        navigate('/events');
+        break;
+      case 'vaccination':
+        navigate('/vaccination');
+        break;
+      case 'user':
+        navigate('/profile');
+        break;
+      default:
+        navigate('/');
+    }
+  };
+
   return (
     <>
       {/* Top Navbar */}
@@ -62,12 +86,12 @@ const Navbar = () => {
             
             {/* Notifications Panel */}
             {isNotificationsOpen && (
-              <div className="notification-panel absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg overflow-hidden z-50">
+              <div className="notification-panel absolute mt-2 w-72 sm:w-80 bg-white rounded-md shadow-lg overflow-hidden z-50 right-0">
                 <div className="py-2 px-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
                   <h3 className="text-sm font-medium text-gray-700">Notifications</h3>
                   <button className="text-xs text-blue-600 hover:text-blue-800">Mark all as read</button>
                 </div>
-                <div className="max-h-96 overflow-y-auto">
+                <div className="max-h-[70vh] sm:max-h-96 overflow-y-auto">
                   {notifications.map(notification => (
                     <div key={notification.id} className={`px-4 py-3 border-b border-gray-100 hover:bg-gray-50 ${notification.unread ? 'bg-blue-50' : ''}`}>
                       <div className="flex justify-between items-start">
@@ -122,8 +146,8 @@ const Navbar = () => {
         <div className="flex justify-around items-center h-full">
           {/* Map Tab */}
           <button 
-            onClick={() => setActiveTab('map')}
-            className={`p-3 rounded-lg ${activeTab === 'map' ? 'bg-purple-100' : ''}`}
+            onClick={() => handleTabClick('map')}
+            className={`p-3 rounded-lg ${location.pathname === '/' ? 'bg-purple-100' : ''}`}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
@@ -132,7 +156,7 @@ const Navbar = () => {
 
           {/* Events Tab */}
           <button 
-            onClick={() => setActiveTab('events')}
+            onClick={() => handleTabClick('events')}
             className={`p-3 rounded-lg ${activeTab === 'events' ? 'bg-purple-100' : ''}`}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -142,7 +166,7 @@ const Navbar = () => {
 
           {/* Vaccination Tab */}
           <button 
-            onClick={() => setActiveTab('vaccination')}
+            onClick={() => handleTabClick('vaccination')}
             className={`p-3 rounded-lg ${activeTab === 'vaccination' ? 'bg-purple-100' : ''}`}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -151,14 +175,11 @@ const Navbar = () => {
           </button>
 
           {/* User Tab */}
-          <button 
-            onClick={() => setActiveTab('user')}
-            className={`p-3 rounded-lg ${activeTab === 'user' ? 'bg-purple-100' : ''}`}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <Link to="/profile" className="flex flex-col items-center p-4">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
-          </button>
+          </Link>
         </div>
       </nav>
     </>
