@@ -4,18 +4,21 @@ import { AuthProvider } from "./Context/AuthContext";
 import Login from "./components/Auth/Login";
 import Home from "./pages/Home";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Events from "./pages/Events";
+import Events from "./pages/Events/Events";
 import EmergencyContacts from "./pages/EmergencyContacts";
-import About from "./pages/About";
-import Authentication from "./pages/Authentication";
+import Profile from "./pages/Profile";
+import Authentication from "./pages/Authentication"; // Ensure this import is correct
 import Signup from "./components/Auth/Signup";
+import Vaccination from "./pages/Vaccination";
 
 const App = () => {
   return (
     <Router>
       <AuthProvider>
         <Routes>
+          <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
+
           <Route
             path="/"
             element={
@@ -26,15 +29,9 @@ const App = () => {
           />
           <Route path="/events" element={<Events />} />
           <Route path="/emergency-contacts" element={<EmergencyContacts />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/about" element={<Profile />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/vaccination" element={<Vaccination />} />
-
-          {/* Nested Routes for Authentication */}
-          <Route path="/auth" element={<Authentication />}>
-            <Route path="login" element={<Login />} />
-            <Route path="signup" element={<Signup />} />
-          </Route>
         </Routes>
       </AuthProvider>
     </Router>

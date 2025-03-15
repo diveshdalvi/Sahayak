@@ -6,6 +6,7 @@ import {
   Calendar,
   Droplet,
   CreditCard,
+  Lock,
 } from "lucide-react";
 import { auth, db } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -22,6 +23,7 @@ const Signup = () => {
     area: "",
     bloodType: "",
     aadhaar: "",
+    password: "",
   });
 
   const navigate = useNavigate();
@@ -56,7 +58,7 @@ const Signup = () => {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
-        "defaultPassword123"
+        formData.password
       );
       const userId = userCredential.user.uid;
 
@@ -69,45 +71,12 @@ const Signup = () => {
 
       await setDoc(doc(db, "users", userId), userData);
       toast.success("Account created successfully!");
-      navigate("/");
+      navigate("/login"); // Redirect to login after signup
     } catch (err) {
       toast.error("Signup failed. Try again.");
       console.error(err);
     }
   };
-
-  const DropdownField = ({
-    label,
-    icon: Icon,
-    options,
-    field,
-    formData,
-    setFormData,
-  }) => (
-    <div className="space-y-2">
-      <label className="text-sm font-medium text-gray-700 block">{label}</label>
-      <div className="relative">
-        <Icon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-        <select
-          required
-          className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          value={formData[field]}
-          onChange={(e) =>
-            setFormData({ ...formData, [field]: e.target.value })
-          }
-        >
-          <option value="" disabled>
-            Select {label}
-          </option>
-          {options.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-      </div>
-    </div>
-  );
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-500 to-blue-600 p-4 flex items-center justify-center">
@@ -169,6 +138,15 @@ const Signup = () => {
             formData={formData}
             setFormData={setFormData}
           />
+          <InputField
+            label="Password"
+            icon={Lock}
+            type="password"
+            field="password"
+            formData={formData}
+            setFormData={setFormData}
+          />
+
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200"
@@ -176,6 +154,17 @@ const Signup = () => {
             Create Account
           </button>
         </form>
+
+        {/* Already have an account? Login */}
+        <p className="text-center text-sm text-gray-600">
+          Already have an account?{" "}
+          <button
+            onClick={() => navigate("/login")}
+            className="text-blue-600 font-semibold hover:underline"
+          >
+            Login
+          </button>
+        </p>
       </div>
     </div>
   );
@@ -202,6 +191,37 @@ const InputField = ({
         value={formData[field]}
         onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
       />
+    </div>
+  </div>
+);
+
+const DropdownField = ({
+  label,
+  icon: Icon,
+  options,
+  field,
+  formData,
+  setFormData,
+}) => (
+  <div className="space-y-2">
+    <label className="text-sm font-medium text-gray-700 block">{label}</label>
+    <div className="relative">
+      <Icon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+      <select
+        required
+        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        value={formData[field]}
+        onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
+      >
+        <option value="" disabled>
+          Select {label}
+        </option>
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
     </div>
   </div>
 );
@@ -236,20 +256,11 @@ const GenderSelection = ({ formData, setFormData }) => (
 );
 
 const mumbaiAreas = [
-  "Andheri West",
-  "Andheri East",
-  "Bandra West",
-  "Bandra East",
+  "Andheri",
+  "Bandra",
   "Borivali",
-  "Chembur",
-  "Colaba",
   "Dadar",
-  "Goregaon",
-  "Juhu",
-  "Kandivali",
-  "Malad",
   "Powai",
-  "Santacruz",
   "Worli",
 ];
 
