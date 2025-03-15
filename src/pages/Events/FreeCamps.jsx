@@ -10,6 +10,7 @@ const FreeCamps = () => {
       date: "April 18, 2024",
       services: ["General Health", "Eye Check-up", "Dental Care"],
       image: "https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&q=80&w=2000",
+      googleMapsLink: "https://www.google.com/maps/place/City+Community+Center/@28.6139,77.2090,15z", // New Delhi
     },
     {
       title: "Vaccination Drive",
@@ -17,6 +18,7 @@ const FreeCamps = () => {
       date: "April 22, 2024",
       services: ["COVID-19", "Flu", "Regular Vaccinations"],
       image: "https://images.unsplash.com/photo-1587385789097-0197a7fbd179?auto=format&fit=crop&q=80&w=2000",
+      googleMapsLink: "https://www.google.com/maps/place/District+Hospital/@40.7128,-74.0060,15z", // New York
     },
   ];
 
@@ -40,10 +42,18 @@ const FreeCamps = () => {
             </Accordion.Header>
             <Accordion.Content className="p-4 border-t bg-gray-50 rounded-b-lg">
               <img src={camp.image} alt={camp.title} className="w-full h-48 object-cover rounded-lg mb-4" />
-              <div className="flex items-center gap-1 text-gray-600">
+              
+              {/* Google Maps Link */}
+              <a 
+                href={camp.googleMapsLink} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 text-green-600 hover:text-green-700 mt-1 underline"
+              >
                 <MapPin className="w-4 h-4" />
                 <span>{camp.location}</span>
-              </div>
+              </a>
+
               <p className="text-sm text-gray-500 mt-1">{camp.date}</p>
               <div className="mt-2">
                 <p className="font-medium text-gray-700">Services:</p>
