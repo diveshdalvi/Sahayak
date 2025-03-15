@@ -18,7 +18,6 @@ const App = () => {
           <Route path="/events" element={<Events />} />
           <Route path="/emergency-contacts" element={<EmergencyContacts />} />
           <Route path="/about" element={<About />} />
-
           {/* Nested Routes for Authentication */}
           <Route path="/auth" element={<Authentication />}>
             <Route path="login" element={<Login />} />
