@@ -1,0 +1,103 @@
+{
+  "vaccinationSchedule": [
+    {
+      "ageRange": 0,
+      "vaccines": {
+        "Hepatitis B": { "doses": [{ "doseNumber": 1, "dueAt": 0 }] },
+        "BCG": { "doses": [{ "doseNumber": 1, "dueAt": 0 }] },
+        "Oral Polio Vaccine (OPV 0)": {
+          "doses": [{ "doseNumber": 1, "dueAt": 0 }]
+        }
+      }
+    },
+    {
+      "ageRange": 6,
+      "vaccines": {
+        "DTP (Diphtheria, Tetanus, Pertussis)": {
+          "doses": [{ "doseNumber": 1, "dueAt": 6 }]
+        },
+        "Hepatitis B": { "doses": [{ "doseNumber": 2, "dueAt": 6 }] },
+        "Hib (Haemophilus influenzae type B)": {
+          "doses": [{ "doseNumber": 1, "dueAt": 6 }]
+        },
+        "Polio (IPV/OPV 1)": { "doses": [{ "doseNumber": 1, "dueAt": 6 }] },
+        "Pneumococcal Conjugate Vaccine (PCV)": {
+          "doses": [{ "doseNumber": 1, "dueAt": 6 }]
+        },
+        "Rotavirus": { "doses": [{ "doseNumber": 1, "dueAt": 6 }] }
+      }
+    },
+    {
+      "ageRange": 10,
+      "vaccines": {
+        "DTP": { "doses": [{ "doseNumber": 2, "dueAt": 10 }] },
+        "Hepatitis B": { "doses": [{ "doseNumber": 3, "dueAt": 10 }] },
+        "Hib": { "doses": [{ "doseNumber": 2, "dueAt": 10 }] },
+        "Polio (IPV/OPV 2)": { "doses": [{ "doseNumber": 2, "dueAt": 10 }] },
+        "PCV": { "doses": [{ "doseNumber": 2, "dueAt": 10 }] },
+        "Rotavirus": { "doses": [{ "doseNumber": 2, "dueAt": 10 }] }
+      }
+    },
+    {
+      "ageRange": 14,
+      "vaccines": {
+        "DTP": { "doses": [{ "doseNumber": 3, "dueAt": 14 }] },
+        "Hepatitis B": { "doses": [{ "doseNumber": 4, "dueAt": 14 }] },
+        "Hib": { "doses": [{ "doseNumber": 3, "dueAt": 14 }] },
+        "Polio (IPV/OPV 3)": { "doses": [{ "doseNumber": 3, "dueAt": 14 }] },
+        "PCV": { "doses": [{ "doseNumber": 3, "dueAt": 14 }] },
+        "Rotavirus": { "doses": [{ "doseNumber": 3, "dueAt": 14 }] }
+      }
+    },
+    {
+      "ageRange": 9,
+      "vaccines": {
+        "Measles, Mumps, Rubella (MMR)": {
+          "doses": [{ "doseNumber": 1, "dueAt": 9 }]
+        }
+      }
+    },
+    {
+      "ageRange": 12,
+      "vaccines": {
+        "PCV Booster": { "doses": [{ "doseNumber": 1, "dueAt": 12 }] },
+        "MMR": { "doses": [{ "doseNumber": 2, "dueAt": 12 }] },
+        "Varicella (Chickenpox)": {
+          "doses": [{ "doseNumber": 1, "dueAt": 12 }]
+        },
+        "Hepatitis A": { "doses": [{ "doseNumber": 1, "dueAt": 12 }] }
+      }
+    },
+    {
+      "ageRange": 18,
+      "vaccines": {
+        "DTP Booster": { "doses": [{ "doseNumber": 1, "dueAt": 18 }] },
+        "Polio Booster": { "doses": [{ "doseNumber": 1, "dueAt": 18 }] },
+        "Hepatitis A": { "doses": [{ "doseNumber": 2, "dueAt": 18 }] }
+      }
+    },
+    {
+      "ageRange": 48,
+      "vaccines": {
+        "DTP Booster": { "doses": [{ "doseNumber": 2, "dueAt": 48 }] },
+        "Polio Booster": { "doses": [{ "doseNumber": 2, "dueAt": 48 }] },
+        "MMR": { "doses": [{ "doseNumber": 3, "dueAt": 48 }] },
+        "Varicella": { "doses": [{ "doseNumber": 2, "dueAt": 48 }] }
+      }
+    },
+    {
+      "ageRange": 120,
+      "vaccines": {
+        "HPV (Human Papillomavirus)": {
+          "doses": [
+            { "doseNumber": 1, "dueAt": 120 },
+            { "doseNumber": 2, "dueAt": 126 }
+          ]
+        },
+        "Tdap (Tetanus, Diphtheria, Pertussis)": {
+          "doses": [{ "doseNumber": 1, "dueAt": 120 }]
+        }
+      }
+    }
+  ]
+}

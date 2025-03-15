@@ -1,0 +1,89 @@
+{
+  "pregnancyCheckupSchedule": [
+    {
+      "gestationalAge": 8,
+      "checkups": {
+        "Initial Visit": {
+          "dueAt": 8,
+          "details": "General health screening, risk assessment, and counseling"
+        },
+        "Blood Tests": {
+          "dueAt": 8,
+          "details": "Blood type, Rh factor, complete blood count"
+        }
+      }
+    },
+    {
+      "gestationalAge": 12,
+      "checkups": {
+        "Dating & Ultrasound": {
+          "dueAt": 12,
+          "details": "Dating scan and fetal heartbeat check"
+        }
+      }
+    },
+    {
+      "gestationalAge": 16,
+      "checkups": {
+        "Follow-up Visit": {
+          "dueAt": 16,
+          "details": "Assessment of fetal growth and maternal weight"
+        }
+      }
+    },
+    {
+      "gestationalAge": 20,
+      "checkups": {
+        "Anomaly Scan": {
+          "dueAt": 20,
+          "details": "Detailed anatomical survey of the fetus"
+        }
+      }
+    },
+    {
+      "gestationalAge": 24,
+      "checkups": {
+        "Glucose Screening": {
+          "dueAt": 24,
+          "details": "Screening test for gestational diabetes"
+        }
+      }
+    },
+    {
+      "gestationalAge": 28,
+      "checkups": {
+        "Routine Check": {
+          "dueAt": 28,
+          "details": "Monitoring blood pressure, weight, and fetal heartbeat"
+        }
+      }
+    },
+    {
+      "gestationalAge": 32,
+      "checkups": {
+        "Preterm Labor Assessment": {
+          "dueAt": 32,
+          "details": "Assessment for signs of preterm labor and fetal growth"
+        }
+      }
+    },
+    {
+      "gestationalAge": 36,
+      "checkups": {
+        "Final Visit": {
+          "dueAt": 36,
+          "details": "Prepare for delivery, review labor plan, monitor maternal and fetal health"
+        }
+      }
+    },
+    {
+      "gestationalAge": 38,
+      "checkups": {
+        "Late Check": {
+          "dueAt": 38,
+          "details": "Final checkup before delivery"
+        }
+      }
+    }
+  ]
+}

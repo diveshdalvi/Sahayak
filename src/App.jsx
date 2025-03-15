@@ -10,6 +10,7 @@ import Profile from "./pages/Profile";
 import Authentication from "./pages/Authentication"; // Ensure this import is correct
 import Signup from "./components/Auth/Signup";
 import Vaccination from "./pages/Vaccination";
+import PregnancyCalendar from "./pages/PregagnancyCalender";
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
           <Route path="/about" element={<Profile />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/vaccination" element={<Vaccination />} />
+          <Route path="/pregnancy-calendar" element={<PregnancyCalendar />} />
         </Routes>
       </AuthProvider>
     </Router>

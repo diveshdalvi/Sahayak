@@ -1,15 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebase";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
-
+  const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("map"); // Add this line to track active tab
+  const [activeTab, setActiveTab] = useState("map");
+
+  // Fetch additional user data from Firestore so we can check pregnancy status etc.
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (user) {
+        try {
+          const userDocSnap = await getDoc(doc(db, "users", user.uid));
+          if (userDocSnap.exists()) {
+            setUserData(userDocSnap.data());
+          }
+        } catch (error) {
+          console.error("Error fetching user data in Navbar:", error);
+        }
+      }
+    };
+    fetchUserData();
+  }, [user]);
 
   // Close menus when clicking outside
   useEffect(() => {
@@ -21,7 +40,6 @@ const Navbar = () => {
       ) {
         setIsNotificationsOpen(false);
       }
-
       if (
         isProfileOpen &&
         !event.target.closest(".profile-menu") &&
@@ -30,36 +48,13 @@ const Navbar = () => {
         setIsProfileOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isNotificationsOpen, isProfileOpen]);
 
-  // Sample notifications
-  const notifications = [
-    {
-      id: 1,
-      text: "New event near Central Park",
-      time: "5 min ago",
-      unread: true,
-    },
-    {
-      id: 2,
-      text: "Event update: Time changed for Brooklyn Bridge tour",
-      time: "1 hour ago",
-      unread: true,
-    },
-    {
-      id: 3,
-      text: "Weekend highlights in your area",
-      time: "3 hours ago",
-      unread: false,
-    },
-  ];
-
-  // Update the user tab click handler
+  // Update the tab click handler
   const handleTabClick = (tab) => {
     setActiveTab(tab);
     switch (tab) {
@@ -69,7 +64,6 @@ const Navbar = () => {
       case "events":
         navigate("/events");
         break;
-
       default:
         navigate("/");
     }
@@ -79,12 +73,10 @@ const Navbar = () => {
     <>
       {/* Top Navbar */}
       <nav className="fixed top-0 left-0 right-0 h-16 bg-white shadow-md z-[1001] px-4 flex items-center justify-between">
-        {/* Center - Logo/Title */}
         <div className="flex-1">
           <h1 className="text-lg font-bold text-gray-800">Sahayak</h1>
         </div>
 
-        {/* Right side - Notifications and Profile */}
         <div className="flex items-center space-x-2">
           {/* Notifications */}
           <div className="relative">
@@ -109,12 +101,8 @@ const Navbar = () => {
                   d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
                 />
               </svg>
-              {notifications.some((n) => n.unread) && (
-                <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
-              )}
+              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
             </button>
-
-            {/* Notifications Panel */}
             {isNotificationsOpen && (
               <div className="notification-panel absolute mt-2 w-72 sm:w-80 bg-white rounded-md shadow-lg overflow-hidden z-50 right-0">
                 <div className="py-2 px-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
@@ -126,34 +114,12 @@ const Navbar = () => {
                   </button>
                 </div>
                 <div className="max-h-[70vh] sm:max-h-96 overflow-y-auto">
-                  {notifications.map((notification) => (
-                    <div
-                      key={notification.id}
-                      className={`px-4 py-3 border-b border-gray-100 hover:bg-gray-50 ${
-                        notification.unread ? "bg-blue-50" : ""
-                      }`}
-                    >
-                      <div className="flex justify-between items-start">
-                        <div className="flex-1">
-                          <p
-                            className={`text-sm ${
-                              notification.unread
-                                ? "font-medium text-gray-800"
-                                : "text-gray-600"
-                            }`}
-                          >
-                            {notification.text}
-                          </p>
-                          <p className="text-xs text-gray-500 mt-1">
-                            {notification.time}
-                          </p>
-                        </div>
-                        {notification.unread && (
-                          <span className="w-2 h-2 bg-blue-600 rounded-full mt-1"></span>
-                        )}
-                      </div>
-                    </div>
-                  ))}
+                  <div className="px-4 py-3 border-b border-gray-100 hover:bg-gray-50 bg-blue-50">
+                    <p className="text-sm font-medium text-gray-800">
+                      New event near Central Park
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">5 min ago</p>
+                  </div>
                 </div>
                 <div className="py-2 px-4 border-t border-gray-200 text-center">
                   <button className="text-sm text-blue-600 hover:text-blue-800">
@@ -190,8 +156,6 @@ const Navbar = () => {
                 </svg>
               </div>
             </button>
-
-            {/* Profile Dropdown */}
             {isProfileOpen && (
               <div className="profile-menu absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
                 <Link
@@ -216,8 +180,8 @@ const Navbar = () => {
                 <a
                   href="#"
                   onClick={(e) => {
-                    e.preventDefault(); // Prevents the default link behavior
-                    logout(); // Calls the logout function
+                    e.preventDefault();
+                    logout();
                   }}
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
@@ -278,23 +242,57 @@ const Navbar = () => {
             </svg>
           </button>
 
-          {/* Vaccination Tab */}
-          <Link to="/vaccination" className="flex flex-col items-center p-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-gray-700"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+          {/* Conditional Tab: Vaccination for children or Pregnancy Calendar for pregnant women */}
+          {userData && userData.userType === "children" ? (
+            <Link to="/vaccination" className="flex flex-col items-center p-4">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-gray-700"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+                />
+              </svg>
+              <span className="text-xs">Vaccination</span>
+            </Link>
+          ) : userData &&
+            userData.gender === "Female" &&
+            userData.pregnancyStatus === "Pregnant" ? (
+            <Link
+              to="/pregnancy-calendar"
+              className="flex flex-col items-center p-4"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
-              />
-            </svg>
-          </Link>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-gray-700"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 14l9-5-9-5-9 5 9 5z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.055 12.083 12.083 0 015.84 10.578L12 14z"
+                />
+              </svg>
+              <span className="text-xs">Pregnancy</span>
+            </Link>
+          ) : (
+            <span>hi</span>
+          )}
 
           {/* Emergency Contacts Tab */}
           <Link
