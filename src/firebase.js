@@ -11,7 +11,7 @@ import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  apiKey: "AIzaSyBauhhjBo85dywE50GWexyN7lmFwQwo1XY",
   authDomain: "sahayak-3c049.firebaseapp.com",
   databaseURL: "https://sahayak-3c049-default-rtdb.firebaseio.com",
   projectId: "sahayak-3c049",

@@ -291,7 +291,7 @@ const Navbar = () => {
               <span className="text-xs">Pregnancy</span>
             </Link>
           ) : (
-            <span>hi</span>
+            null
           )}
 
           {/* Emergency Contacts Tab */}

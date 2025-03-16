@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import Navbar from "../components/common/Navbar";
 import { useAuth } from "../Context/AuthContext";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, increment } from "firebase/firestore";
 import { db } from "../firebase";
 
 // List of diseases for the dropdown
@@ -34,7 +34,7 @@ const diseaseOptions = [
 const Profile = () => {
   const { user } = useAuth();
   const [userInfo, setUserInfo] = useState(null);
-  // Use selectedDisease for dropdown instead of text input
+  // For adding a disease from the dropdown
   const [selectedDisease, setSelectedDisease] = useState("");
   // Local state for pregnancy fields (only used if not already set in DB)
   const [pregnancyStatus, setPregnancyStatus] = useState("");
@@ -64,7 +64,8 @@ const Profile = () => {
     return <div className="text-center mt-20">Loading...</div>;
   }
 
-  // Update Firestore when user adds a disease from the dropdown
+  // Update Firestore when user adds a disease from the dropdown.
+  // Also update the corresponding count in the user's area document.
   const addDisease = async () => {
     if (!selectedDisease.trim()) return;
     const updatedDiseases = [
@@ -73,8 +74,15 @@ const Profile = () => {
     ];
 
     try {
+      // Update the user's diseases field.
       await updateDoc(doc(db, "users", user.uid), {
         diseases: updatedDiseases,
+      });
+      // Update the disease count in the area document.
+      // Assumes userInfo.area holds the area document ID (e.g., "Borivali", "Vashi")
+      const areaRef = doc(db, "areas", `${userInfo.area}`);
+      await updateDoc(areaRef, {
+        [`diseases.${selectedDisease}`]: increment(1),
       });
       setUserInfo({ ...userInfo, diseases: updatedDiseases });
       setSelectedDisease("");
@@ -83,14 +91,19 @@ const Profile = () => {
     }
   };
 
-  // Mark disease as cured
+  // Mark disease as cured and decrement the count in the area document.
   const markAsCured = async (index) => {
     const updatedDiseases = [...userInfo.diseases];
+    const diseaseName = updatedDiseases[index].name;
     updatedDiseases[index].cured = true;
 
     try {
       await updateDoc(doc(db, "users", user.uid), {
         diseases: updatedDiseases,
+      });
+      const areaRef = doc(db, "areas", `${userInfo.area}`);
+      await updateDoc(areaRef, {
+        [`diseases.${diseaseName}`]: increment(-1),
       });
       setUserInfo({ ...userInfo, diseases: updatedDiseases });
     } catch (error) {
@@ -98,7 +111,7 @@ const Profile = () => {
     }
   };
 
-  // Updated pregnancy status function with error handling and logging
+  // Updated pregnancy status function with error handling and logging.
   const updatePregnancyStatus = async () => {
     try {
       const userRef = doc(db, "users", user.uid);
@@ -219,7 +232,7 @@ const Profile = () => {
               <div className="p-6">
                 <h2 className="text-lg font-bold mb-4">Pregnancy Status</h2>
                 {userInfo.pregnancyStatus ? (
-                  // If pregnancy details are already set, show them read-only
+                  // Read-only if pregnancy details are already set
                   <div className="mb-4">
                     <p className="text-sm font-medium text-gray-700">
                       Status: {userInfo.pregnancyStatus}
@@ -280,7 +293,6 @@ const Profile = () => {
   );
 };
 
-// InfoRow Component
 const InfoRow = ({ icon: Icon, label, value }) => (
   <div className="flex items-center p-4 border-b border-gray-100">
     <Icon className="w-5 h-5 text-gray-500 mr-3" />
