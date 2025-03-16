@@ -288,7 +288,6 @@ const Navbar = () => {
                   d="M12 14l6.16-3.422A12.083 12.083 0 0112 21.055 12.083 12.083 0 015.84 10.578L12 14z"
                 />
               </svg>
-              <span className="text-xs">Pregnancy</span>
             </Link>
           ) : (
             null
