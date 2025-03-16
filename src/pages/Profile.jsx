@@ -92,6 +92,7 @@ const Profile = () => {
   };
 
   // Mark disease as cured and decrement the count in the area document.
+  // Cured diseases will no longer be shown.
   const markAsCured = async (index) => {
     const updatedDiseases = [...userInfo.diseases];
     const diseaseName = updatedDiseases[index].name;
@@ -125,6 +126,9 @@ const Profile = () => {
       console.error("Error updating pregnancy status:", error);
     }
   };
+
+  // Filter out cured diseases before rendering.
+  const activeDiseases = userInfo.diseases?.filter((d) => !d.cured) || [];
 
   return (
     <>
@@ -182,27 +186,23 @@ const Profile = () => {
             {/* Diagnosed Diseases Section */}
             <div className="p-6">
               <h2 className="text-lg font-bold mb-4">Diagnosed Diseases</h2>
-              {userInfo.diseases?.length > 0 ? (
-                userInfo.diseases.map((disease, index) => (
+              {activeDiseases.length > 0 ? (
+                activeDiseases.map((disease, index) => (
                   <div
                     key={index}
                     className="flex justify-between items-center bg-gray-100 p-3 rounded-lg mb-2"
                   >
                     <span>{disease.name}</span>
-                    {!disease.cured ? (
-                      <button
-                        onClick={() => markAsCured(index)}
-                        className="text-green-600 flex items-center"
-                      >
-                        <CheckCircle className="w-5 h-5 mr-2" /> Mark as Cured
-                      </button>
-                    ) : (
-                      <span className="text-gray-500">Cured</span>
-                    )}
+                    <button
+                      onClick={() => markAsCured(index)}
+                      className="text-green-600 flex items-center"
+                    >
+                      <CheckCircle className="w-5 h-5 mr-2" /> Mark as Cured
+                    </button>
                   </div>
                 ))
               ) : (
-                <p className="text-gray-500">No diseases recorded.</p>
+                <p className="text-gray-500">No active diseases recorded.</p>
               )}
               {/* Add Disease Dropdown */}
               <div className="flex mt-4">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   User,
   Calendar,
@@ -10,13 +10,14 @@ import {
 } from "lucide-react";
 import { auth, db } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, collection, getDocs } from "firebase/firestore";
 import { toast, Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import vaccinesData from "../../Data/vaccines.json";
 
 const Signup = () => {
   const [step, setStep] = useState(1);
+  const [areas, setAreas] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     dob: "",
@@ -33,6 +34,24 @@ const Signup = () => {
   });
 
   const navigate = useNavigate();
+
+  // Fetch areas from Firestore
+  useEffect(() => {
+    const fetchAreas = async () => {
+      try {
+        const areasCol = collection(db, "areas");
+        const snapshot = await getDocs(areasCol);
+        const areasList = snapshot.docs.map((doc) => {
+          const data = doc.data();
+          return { id: doc.id, name: data.areaName || doc.id };
+        });
+        setAreas(areasList);
+      } catch (error) {
+        console.error("Error fetching areas:", error);
+      }
+    };
+    fetchAreas();
+  }, []);
 
   // Calculate age in years
   const calculateAge = (dob) => {
@@ -180,7 +199,8 @@ const Signup = () => {
               <DropdownField
                 label="Area"
                 icon={MapPin}
-                options={mumbaiAreas}
+                // Use areas fetched from Firestore
+                options={areas.map((area) => area.name)}
                 field="area"
                 formData={formData}
                 setFormData={setFormData}
@@ -344,14 +364,5 @@ const GenderSelection = ({ formData, setFormData }) => (
     </div>
   </div>
 );
-
-const mumbaiAreas = [
-  "Andheri",
-  "Bandra",
-  "Borivali",
-  "Dadar",
-  "Powai",
-  "Worli",
-];
 
 export default Signup;

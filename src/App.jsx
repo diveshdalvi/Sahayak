@@ -11,6 +11,7 @@ import Authentication from "./pages/Authentication"; // Ensure this import is co
 import Signup from "./components/Auth/Signup";
 import Vaccination from "./pages/Vaccination";
 import PregnancyCalendar from "./pages/PregagnancyCalender";
+import Landing from "./pages/Landing";
 
 const App = () => {
   return (
@@ -24,11 +25,12 @@ const App = () => {
             path="/"
             element={
               <ProtectedRoute>
-                <Home />
+                <Landing />
               </ProtectedRoute>
             }
           />
           <Route path="/events" element={<Events />} />
+          <Route path="/map" element={<Home />} />
           <Route path="/emergency-contacts" element={<EmergencyContacts />} />
           <Route path="/about" element={<Profile />} />
           <Route path="/profile" element={<Profile />} />

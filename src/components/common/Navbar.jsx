@@ -200,7 +200,7 @@ const Navbar = () => {
           <button
             onClick={() => handleTabClick("map")}
             className={`p-3 rounded-lg ${
-              location.pathname === "/" ? "bg-purple-100" : ""
+              location.pathname === "/map" ? "bg-purple-100" : ""
             }`}
           >
             <svg
