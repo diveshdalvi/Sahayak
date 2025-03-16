@@ -416,9 +416,6 @@ const Home = () => {
                     <div className="bg-gray-100 p-4 rounded-lg mt-4">
                       <p>Latitude: {selectedLocation.lat}</p>
                       <p>Longitude: {selectedLocation.lng}</p>
-                      <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-5 rounded mt-2.5 cursor-pointer">
-                        Get Directions
-                      </button>
                     </div>
                   </div>
                 )}
